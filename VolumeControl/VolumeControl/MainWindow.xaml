@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="VolumeControl.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VolumeControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="VolumeControl">
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <!-- Mute/Unmute Button -->
+        <Button x:Name="muteButton" Width="50" Height="50" Click="MuteButton_Click">
+            <FontIcon x:Name="muteIcon" Glyph="A" FontSize="24" />
+        </Button>
+
+        <!-- Slider -->
+        <Slider x:Name="volumeSlider" Header="Volume" Width="200"
+                Minimum="0" Maximum="100" Value="50" ValueChanged="Slider_ValueChanged" />
+    </StackPanel>
+</Window>

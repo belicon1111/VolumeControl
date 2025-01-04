@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "VolumeControl (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "VolumeControl (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
