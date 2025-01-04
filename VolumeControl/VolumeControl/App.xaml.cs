@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,6 +27,8 @@ namespace VolumeControl
     /// </summary>
     public partial class App : Application
     {
+        private static Mutex mutex = new Mutex(true, "{E01D1C2A-D655-4A2A-8D87-0A5DBA078D44}");
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -41,8 +44,18 @@ namespace VolumeControl
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            m_window = new MainWindow();
-            m_window.Activate();
+            // Check if the mutex is already acquired (i.e., another instance is running)
+            if (mutex.WaitOne(TimeSpan.Zero, true))
+            {
+                // Proceed with launching the app if the mutex is acquired
+                m_window = new MainWindow();
+                m_window.Activate();
+            }
+            else
+            {
+                // If another instance is running, exit the current one
+                Environment.Exit(0);
+            }
         }
 
         private Window? m_window;
