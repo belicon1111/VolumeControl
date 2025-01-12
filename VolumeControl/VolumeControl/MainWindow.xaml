@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Title="Basic Volume Control"
-    Width="840" Height="300"
+    Width="100" Height="140"
     IsResizable="False" IsMaximizable="False">
 
     <Grid>

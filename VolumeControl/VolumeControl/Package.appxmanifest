@@ -10,14 +10,14 @@
 
   <Identity
     Name="b72d6166-4276-486b-aec4-4404fa3349a8"
-    Publisher="CN=deoch"
+    Publisher="CN=VantaTech"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="b72d6166-4276-486b-aec4-4404fa3349a8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>VolumeControl</DisplayName>
-    <PublisherDisplayName>deoch</PublisherDisplayName>
+    <DisplayName>Basic Volume Control</DisplayName>
+    <PublisherDisplayName>VantaTech</PublisherDisplayName>
     <Logo>Assets\icon.png</Logo>
   </Properties>
 

@@ -10,16 +10,37 @@ using AudioSwitcher.AudioApi.Observables;
 
 namespace VolumeControl
 {
+    public class VolumeChangedEventArgs : EventArgs
+    {
+        public double NewVolume { get; }
+
+        public VolumeChangedEventArgs(double newVolume)
+        {
+            NewVolume = newVolume;
+        }
+    }
+
+    public class MuteChangedEventArgs : EventArgs
+    {
+        public bool NewMute { get; }
+
+        public MuteChangedEventArgs(bool newMute)
+        {
+            NewMute = newMute;
+        }
+    }
     class VolumeController
     {
-        private CoreAudioController controller;
         private CoreAudioDevice defaultDevice;
+
+        public event EventHandler<VolumeChangedEventArgs>? VolumeChanged;
+        public event EventHandler<MuteChangedEventArgs>? MuteChanged;
 
         //public event Action<double> VolumeChanged;  // Event to notify UI of volume changes
 
         public VolumeController()
         {
-            controller = new CoreAudioController();
+            var controller = new CoreAudioController();
             defaultDevice = controller.DefaultPlaybackDevice;
 
             if (defaultDevice == null)
@@ -27,8 +48,10 @@ namespace VolumeControl
                 throw new Exception("No default playback device found. Ensure a playback device is connected and set as default.");
             }
 
-            // Subscribe to the AudioDeviceChanged event using .Subscribe
+            // Subscribe to events
             controller.AudioDeviceChanged.Subscribe(OnAudioDeviceChanged);
+            defaultDevice.VolumeChanged.Subscribe(OnVolumeChanged);
+            defaultDevice.MuteChanged.Subscribe(OnMuteChanged);
         }
 
         // Method that handles device change events
@@ -38,6 +61,7 @@ namespace VolumeControl
             if (e.Device.IsDefaultDevice && e.Device.DeviceType == AudioSwitcher.AudioApi.DeviceType.Playback)
             {
                 defaultDevice = (CoreAudioDevice)e.Device;
+                defaultDevice.VolumeChanged.Subscribe(OnVolumeChanged);
             }
 
             // Check if volume changed
@@ -45,6 +69,16 @@ namespace VolumeControl
             // Check if mute status changed
 
 
+        }
+
+        private void OnVolumeChanged(DeviceVolumeChangedArgs e)
+        {
+            VolumeChanged?.Invoke(this, new VolumeChangedEventArgs(e.Volume));
+        }
+
+        private void OnMuteChanged(DeviceMuteChangedArgs e)
+        {
+            MuteChanged?.Invoke(this, new MuteChangedEventArgs(e.IsMuted));
         }
 
         public double GetVolume()

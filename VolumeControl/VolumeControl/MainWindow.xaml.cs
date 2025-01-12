@@ -17,6 +17,7 @@ using FontAwesome;
 using WinUIEx;
 using Microsoft.UI;
 using WinRT.Interop;
+using AudioSwitcher.AudioApi;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -55,6 +56,9 @@ namespace VolumeControl
 
             // subscribe to changes
             volumeSlider.ValueChanged += Slider_ValueChanged;
+            volumeController.VolumeChanged += OnVolumeChanged;
+            volumeController.MuteChanged += OnMuteStateChanged;
+
         }
 
         private void MuteButton_Click(object sender, RoutedEventArgs e)
@@ -73,6 +77,23 @@ namespace VolumeControl
             volumeController.SetVolume(volumeSlider.Value);
         }
 
+        private void OnVolumeChanged(object? sender, VolumeChangedEventArgs e)
+        {
+            // Update UI, for example, update the slider value
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                volumeSlider.Value = e.NewVolume; // Assume there's a Slider named volumeSlider
+            });
+        }
+        private void OnMuteStateChanged(object? sender, MuteChangedEventArgs e)
+        {
+            // Update UI, for example, update the mute icon
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                volumeIcon.Text = e.NewMute ? FontAwesome.FontAwesomeIcons.VolumeXmark : GetUnmutedVolumeIcon();
+            });
+        }
+
         private void UpdateVolumeButtonIcon()
         {
             volumeIcon.Text = isMuted ? FontAwesome.FontAwesomeIcons.VolumeXmark : GetUnmutedVolumeIcon();
@@ -80,7 +101,17 @@ namespace VolumeControl
 
         private string GetUnmutedVolumeIcon()
         {
-            return volumeSlider.Value < 50 ? FontAwesome.FontAwesomeIcons.VolumeLow : FontAwesome.FontAwesomeIcons.VolumeHigh;
+            string retval = FontAwesome.FontAwesomeIcons.VolumeHigh;
+
+            if (volumeSlider.Value == 0)
+            {
+                retval = FontAwesome.FontAwesomeIcons.VolumeXmark;
+            }
+            else if (volumeSlider.Value < 50)
+            {
+                retval = FontAwesome.FontAwesomeIcons.VolumeLow;
+            }
+            return retval;
         }
     }
 }
