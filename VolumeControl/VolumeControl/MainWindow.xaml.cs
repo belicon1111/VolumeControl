@@ -73,6 +73,8 @@ namespace VolumeControl
 
         private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
+            isMuted = false;
+
             UpdateVolumeButtonIcon();
             volumeController.SetVolume(volumeSlider.Value);
         }
