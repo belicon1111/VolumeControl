@@ -9,11 +9,11 @@
   IgnorableNamespaces="uap rescap uap18">
 
   <Identity
-    Name="b72d6166-4276-486b-aec4-4404fa3349a8"
-    Publisher="CN=VantaTech"
+    Name="VantaTech.8840E07708BD"
+    Publisher="CN=deoch"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="b72d6166-4276-486b-aec4-4404fa3349a8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="97f78c99-e782-46e8-88cb-80c8faa8faed" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Basic Volume Control</DisplayName>
